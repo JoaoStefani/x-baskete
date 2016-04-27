@@ -3,7 +3,7 @@
 @section('content')
 <div class="row">
     <div class="page-header">
-        <h2>Home Page</h2>
+        <h2>Lanchonete xBaskete</h2>
     </div></div>
 
     @if(count($articles)>0)
