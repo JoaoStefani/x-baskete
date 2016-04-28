@@ -74,4 +74,11 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function() {
     Route::get('user/{user}/edit', 'Admin\UserController@edit');
     Route::get('user/{user}/delete', 'Admin\UserController@delete');
     Route::resource('user', 'Admin\UserController');
+
+    # Exercicio
+    Route::get('exercicio/data', 'Admin\ExercicioController@data');
+    Route::get('exercicio/excel', 'Admin\ExercicioController@excel');
+    Route::get('exercicio/create', 'Admin\ExercicioController@create');
+    Route::get('exercicio/limpar', 'Admin\ExercicioController@limpar');
+    Route::resource('exercicio', 'Admin\ExercicioController');
 });
