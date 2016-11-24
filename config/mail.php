@@ -54,7 +54,7 @@ return [
     |
     */
 
-    'from' => ['address' => null, 'name' => null],
+    'from' => ['address' => 'startersite@fcmoreno.com', 'name' => 'Starter Site'],
 
     /*
     |--------------------------------------------------------------------------

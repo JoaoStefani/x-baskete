@@ -6,23 +6,40 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="index.html">Administração xBaskete</a>
+        <a class="navbar-brand" href="{{ url('/') }}">Laravel V5.1</a>
     </div>
     <div class="navbar-default sidebar" role="navigation">
         <div class="sidebar-nav navbar-collapse">
             <ul class="nav" id="side-menu">
                 <li>
-                    <a href="{{ URL::to('') }}"><i class="fa fa-backward"></i> Voltar</a>
+                    <a href="{{ url('/') }}"><i class="fa fa-backward"></i> Visualizar front-end</a>
                 </li>
                 <li>
                     <a href="{{url('admin/dashboard')}}">
-                        <i class="fa fa-dashboard fa-fw"></i> Administração
+                        <i class="fa fa-dashboard fa-fw"></i> Dashboard
                     </a>
                 </li>
                 <li>
-                    <a href="{{url('admin/exercicio')}}">
-                        <i class="fa fa-language"></i> Exércicio
+                    <a href="{{url('admin/noticia')}}">
+                        <i class="glyphicon glyphicon-bullhorn"></i> Notícias
                     </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="fa fa-folder-open-o" aria-hidden="true"></i> Galeria multimidia <span class="fa arrow"></span>
+                    </a>
+                    <ul class="nav collapse">
+                        <li>
+                            <a href="{{url('#')}}">
+                                <i class="fa fa-picture-o" aria-hidden="true"></i> Álbuns
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{url('admin/videos')}}">
+                                <i class="fa fa-video-camera" aria-hidden="true"></i> Vídeos
+                            </a>
+                        </li>
+                    </ul>
                 </li>
                 <li>
                     <a href="{{url('admin/user')}}">
@@ -30,7 +47,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{{ URL::to('auth/logout') }}"><i class="fa fa-sign-out"></i> Sair</a>
+                    <a href="{{ url('auth/logout') }}"><i class="fa fa-sign-out"></i> Logout</a>
                 </li>
             </ul>
         </div>

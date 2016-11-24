@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>@section('title') Administration @show</title>
+    <title>@section('title') Administração @show</title>
     @section('meta_keywords')
         <meta name="keywords" content="your, awesome, keywords, here"/>
     @show @section('meta_author')
@@ -16,6 +16,9 @@
     @show
     <link href="{{ asset('css/admin.css') }}" rel="stylesheet">
     <script src="{{ asset('js/admin.js') }}"></script>
+
+    <link rel="stylesheet" href="{{ asset('css/sweetalert.css')}}">
+    <script src="{{ asset('js/sweetalert.min.js')}}"></script>
     @yield('styles')
 </head>
 <!-- Container -->
@@ -24,13 +27,14 @@
         &nbsp;
         <div class="pull-right">
             <button class="btn btn-primary btn-xs close_popup">
-                <span class="glyphicon glyphicon-backward"></span> {!! trans('admin/admin.back')!!}
+                <span class="glyphicon glyphicon-backward"></span> Voltar
             </button>
         </div>
     </div>
     <!-- Content -->
     @yield('content')
             <!-- ./ content -->
+    @include('sweet::alert')
     <script type="text/javascript">
         $(function () {
             $('textarea').summernote({height: 250});
@@ -50,13 +54,13 @@
                     }).fail(function (jqXHR, textStatus, errorThrown) {
                         // Optionally alert the user of an error here...
                         var textResponse = jqXHR.responseText;
-                        var alertText = "One of the following conditions is not met:\n\n";
+                        var alertText = "Confira as mensagens abaixo:\n\n";
                         var jsonResponse = jQuery.parseJSON(textResponse);
 
                         $.each(jsonResponse, function (n, elem) {
                             alertText = alertText + elem + "\n";
                         });
-                        alert(alertText);
+                        swal({title: "", text: alertText, type: 'error'});
                     });
                 }
                 else {
@@ -77,14 +81,14 @@
                     }).fail(function (jqXHR, textStatus, errorThrown) {
                         // Optionally alert the user of an error here...
                         var textResponse = jqXHR.responseText;
-                        var alertText = "One of the following conditions is not met:\n\n";
+                        var alertText = "Confira as mensagens abaixo:\n\n";
                         var jsonResponse = jQuery.parseJSON(textResponse);
 
                         $.each(jsonResponse, function (n, elem) {
                             alertText = alertText + elem + "\n";
                         });
 
-                        alert(alertText);
+                        swal({title: "", text: alertText, type: 'error'});
                     });
                 }
                 ;

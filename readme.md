@@ -1,7 +1,5 @@
 # Laravel Framework 5.1  Bootstrap 3 Starter Site
 
-Demo site is deleteed today> It's because some user upload virus code which is stop work server, which I use to hosting, and I need do delete it. Host owner tell me that I have some virus code on my start site(someone is upload some virus code on server) and I need to delete it or they delete it. So I must delete it. Sorry.
-
 ## Starter Site based on on Laravel 5.1 and Boostrap 3
 * [Features](#feature1)
 * [Requirements](#feature2)
@@ -73,8 +71,8 @@ On Windows, you can use the Composer [Windows installer](https://getcomposer.org
 
 Then run:
 
-    composer install
-to install dependencies Laravel and other packages.
+    composer dump-autoload
+    composer install --no-scripts
 
 -----
 <a name="step3"></a>
@@ -88,7 +86,7 @@ After that, copy .env.example and rename it as .env and put connection and chang
 <a name="step4"></a>
 ### Step 4: Install
 
-Firstable need to uncomment this line "extension=php_fileinfo.dll" in php.info file.
+Firstable need to uncomment this line "extension=php_fileinfo.dll" in php.ini file.
 
 This project makes use of Bower and Laravel Elixir. Before triggering Elixir, you must first ensure that Node.js (included in homestead) is installed on your machine.
 
@@ -96,7 +94,7 @@ This project makes use of Bower and Laravel Elixir. Before triggering Elixir, yo
 
 Install dependencies listed in package.json with:
 
-    npm install
+    npm install --save-dev
 
 Retrieve frontend dependencies with Bower, compile SASS, and move frontend files into place:
 

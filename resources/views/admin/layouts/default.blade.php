@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>@section('title') Administration @show</title>
+    <title>@section('title') Administração @show</title>
     @section('meta_keywords')
         <meta name="keywords" content="your, awesome, keywords, here"/>
     @show @section('meta_author')
@@ -16,6 +16,9 @@
     @show
     <link href="{{ asset('css/admin.css') }}" rel="stylesheet">
     <script src="{{ asset('js/admin.js') }}"></script>
+
+    <link rel="stylesheet" href="{{ asset('css/sweetalert.css')}}">
+    <script src="{{ asset('js/sweetalert.min.js')}}"></script>
     @yield('styles')
 </head>
 <body>
@@ -25,34 +28,35 @@
         @yield('main')
     </div>
 </div>
-
+@include('sweet::alert')
 <script type="text/javascript">
+    @if(isset($type))
     var oTable;
     $(document).ready(function () {
         oTable = $('#table').DataTable({
-            "sDom": "<'row'<'col-md-6'l><'col-md-6'f>r>t<'row'<'col-md-6'i><'col-md-6'p>>",
-            "sPaginationType": "bootstrap",
             "oLanguage": {
-                "sProcessing": "{{ trans('table.processing') }}",
-                "sLengthMenu": "{{ trans('table.showmenu') }}",
-                "sZeroRecords": "{{ trans('table.noresult') }}",
-                "sInfo": "{{ trans('table.show') }}",
-                "sEmptyTable": "{{ trans('table.emptytable') }}",
-                "sInfoEmpty": "{{ trans('table.view') }}",
-                "sInfoFiltered": "{{ trans('table.filter') }}",
+                "sProcessing": 'Processando...',
+                "sLengthMenu": 'Mostrar _MENU_ elementos',
+                "sZeroRecords": 'Não há resultados',
+                "sInfo": 'Visualizando _START_ ao _END_ de _TOTAL_ elementos',
+                "sEmptyTable": 'Não há dados na tabela',
+                "sInfoEmpty": 'Visualizando 0 ao 0 de 0 elementos',
+                "sInfoFiltered": '(filtrado de um total de _MAX_ elementos)',
                 "sInfoPostFix": "",
-                "sSearch": "{{ trans('table.search') }}:",
+                "sSearch": 'Procurar:',
                 "sUrl": "",
                 "oPaginate": {
-                    "sFirst": "{{ trans('table.start') }}",
-                    "sPrevious": "{{ trans('table.prev') }}",
-                    "sNext": "{{ trans('table.next') }}",
-                    "sLast": "{{ trans('table.last') }}"
+                    "sFirst": 'Início',
+                    "sPrevious": 'Anterior',
+                    "sNext": 'Próximo',
+                    "sLast": 'Fim'
                 }
             },
             "processing": true,
             "serverSide": true,
-            "ajax": "{!! $type !!}/data",
+            "order": [],
+            "ajax": "{{ url('admin/'.$type.'/data') }}",
+            "pagingType": "full_numbers",
             "fnDrawCallback": function (oSettings) {
                 $(".iframe").colorbox({
                     iframe: true,
@@ -62,9 +66,19 @@
                         oTable.ajax.reload();
                     }
                 });
+
+                $(".iframedelete").colorbox({
+                    iframe: true,
+                    width: "40%",
+                    height: "40%",
+                    onClosed: function () {
+                        oTable.ajax.reload();
+                    }
+                });
             }
         });
     });
+    @endif
 </script>
 @yield('scripts')
 </body>

@@ -6,7 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 class UserRequest extends FormRequest {
 
 	/**
-	 * Get the validation rules that apply to the request.
+	 * Obter as regras de validação para esta requisição.
 	 *
 	 * @return array
 	 */
@@ -44,7 +44,7 @@ class UserRequest extends FormRequest {
 	}
 
 	/**
-	 * Determine if the user is authorized to make this request.
+	 * Determinar se o usuário está autorizado a fazer esta requisição.
 	 *
 	 * @return bool
 	 */

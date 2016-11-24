@@ -145,12 +145,14 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
-        Rafaelqm\Datatables\DatatablesServiceProvider::class,
-        //yajra\Datatables\DatatablesServiceProvider::class,
         Barryvdh\Debugbar\ServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
         Cviebrock\EloquentSluggable\SluggableServiceProvider::class,
 
+        Cagartner\CorreiosConsulta\ServiceProvider::class,
+        Intervention\Image\ImageServiceProvider::class,
+        Rafaelqm\Datatables\DatatablesServiceProvider::class,
+        UxWeb\SweetAlert\SweetAlertServiceProvider::class,
     ],
 
     /*
@@ -200,11 +202,13 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View'      => Illuminate\Support\Facades\View::class,
 
-        'Datatables' => Rafaelqm\Datatables\Datatables::class,
-        //'Datatables' => yajra\Datatables\Datatables::class,
+        'Datatables' => yajra\Datatables\Datatables::class,
         'Debugbar' => Barryvdh\Debugbar\Facade::class,
         'Form' => Collective\Html\FormFacade::class,
         'Html' => Collective\Html\HtmlFacade::class,
+        'Correios'    => Cagartner\CorreiosConsulta\Facade::class,
+        'Alert' => UxWeb\SweetAlert\SweetAlert::class,
+        'Image'     => Intervention\Image\Facades\Image::class,
     ],
 
 ];

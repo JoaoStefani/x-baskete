@@ -4,6 +4,13 @@
     "keywords": ["framework", "laravel"],
     "license": "MIT",
     "type": "project",
+    "repositories": [
+        {
+             "type": "composer", 
+             "url": "https://packagist.org"
+        },
+        { "packagist": false }
+    ],
     "require": {
         "php": ">=5.5.9",
         "laravel/framework": "5.1.*",
@@ -12,6 +19,7 @@
         "laravelcollective/html": "5.1.*",
         "cviebrock/eloquent-sluggable": "3.1.4",
         "rafaelqm/laravel-datatables" : "6.5",
+        "cagartner/correios-consulta": "0.1.*",
         "uxweb/sweet-alert": "~1.1",
         "intervention/image": "^2.3"
     },

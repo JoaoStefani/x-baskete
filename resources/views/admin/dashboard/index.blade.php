@@ -1,7 +1,7 @@
 @extends('admin.layouts.default')
 
 {{-- Web site Title --}}
-@section('title') {!! $title !!} :: @parent @stop
+@section('title') {!! $title !!} :: @parent @endsection
 
 {{-- Content --}}
 @section('main')
@@ -10,19 +10,19 @@
     </h3>
     <div class="row">
         <div class="col-lg-3 col-md-3">
-            <div class="panel panel-success">
+            <div class="panel panel-yellow">
                 <div class="panel-heading">
                     <div class="row">
                         <div class="col-xs-3">
-                            <i class="glyphicon glyphicon-camera fa-3x"></i>
+                            <i class="glyphicon glyphicon-list fa-3x"></i>
                         </div>
                         <div class="col-xs-9 text-right">
-                            <div class="huge">{{$photo}}</div>
-                            <div>Exércicio!</div>
+                            <div class="huge">{{$noticias}}</div>
+                            <div>Notícias!</div>
                         </div>
                     </div>
                 </div>
-                <a href="{{URL::to('admin/exercicio')}}">
+                <a href="{{url('admin/noticia')}}">
                     <div class="panel-footer">
                         <span class="pull-left">Detalhes</span>
                         <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -33,19 +33,19 @@
             </div>
         </div>
         <div class="col-lg-3 col-md-3">
-            <div class="panel panel-warning">
+            <div class="panel panel-red">
                 <div class="panel-heading">
                     <div class="row">
                         <div class="col-xs-3">
                             <i class="glyphicon glyphicon-user fa-3x"></i>
                         </div>
                         <div class="col-xs-9 text-right">
-                            <div class="huge">Usuário</div>
-                            <div>{{ trans("admin/admin.users") }}!</div>
+                            <div class="huge">{{$users}}</div>
+                            <div>Usuários!</div>
                         </div>
                     </div>
                 </div>
-                <a href="{{URL::to('admin/users')}}">
+                <a href="{{url('admin/user')}}">
                     <div class="panel-footer">
                         <span class="pull-left">Detalhes</span>
                         <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>

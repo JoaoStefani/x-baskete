@@ -3,7 +3,7 @@
 class AdminController extends Controller {
 
     /**
-     * Initializer.
+     *Inicializador.
      *
      * @return \AdminController
      */

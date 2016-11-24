@@ -8,39 +8,21 @@ use Datatables;
 
 class UserController extends AdminController
 {
-
-
     public function __construct()
     {
         view()->share('type', 'user');
     }
 
-    /*
-    * Display a listing of the resource.
-    *
-    * @return Response
-    */
     public function index()
     {
-        // Show the page
         return view('admin.user.index');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return Response
-     */
     public function create()
     {
         return view('admin.user.create_edit');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @return Response
-     */
     public function store(UserRequest $request)
     {
 
@@ -50,23 +32,11 @@ class UserController extends AdminController
         $user->save();
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param $user
-     * @return Response
-     */
     public function edit(User $user)
     {
         return view('admin.user.create_edit', compact('user'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param $user
-     * @return Response
-     */
     public function update(UserRequest $request, User $user)
     {
         $password = $request->password;
@@ -81,42 +51,85 @@ class UserController extends AdminController
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
+     * Está funcão deleta o usuário.
      * @param $user
-     * @return Response
+     * @return \Illuminate\Http\JsonResponse
      */
-
-    public function delete(User $user)
+    public function delete($user)
     {
-        return view('admin.user.delete', compact('user'));
+        $acao = '';
+        $salvo = false;
+
+        if($user){
+            $salvo = $user->delete();
+            $acao = "Usuário deletado com sucesso.";
+        }else{
+            $acao = "Ocorreu um erro ao deletar o usuário.";
+        }
+        return response()->json(['sucesso'=>$salvo, 'resposta'=>$acao]);
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
+     * @param $ativacao
      * @param $user
-     * @return Response
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy(User $user)
-    {
-        $user->delete();
+    public function userAtivacao($ativacao, $user){
+        $user = User::where('id', '=', $user->id)
+                        ->first();
+        $acao = '';
+        $salvo = false;
+
+        if($user){
+            if($ativacao == "ativar"){
+                $user->confirmed = 1;
+                $salvo = $user->save();
+                $acao = "O usuário foi ativando com sucesso.";
+            }else{
+                $user->confirmed = 0;
+                $salvo = $user->save();
+                $acao = "O usuário foi desativado com sucesso.";
+            }
+        }else{
+            $acao = "Ocorreu um erro ao ativar/desativar.";
+        }
+        return response()->json(['sucesso'=>$salvo, 'resposta'=>$acao]);
     }
 
-    /**
-     * Show a list of all the languages posts formatted for Datatables.
-     *
-     * @return Datatables JSON
-     */
+
     public function data()
     {
-        $users = User::select(array('users.id', 'users.name', 'users.email', 'users.confirmed', 'users.created_at'));
+        $users = User::select(array('users.id',
+                                    'users.name',
+                                    'users.email',
+                                    'users.confirmed',
+                                    'users.created_at'
+                                    )
+                              );
 
         return Datatables::of($users)
-            ->edit_column('confirmed', '@if ($confirmed=="1") <span class="glyphicon glyphicon-ok"></span> @else <span class=\'glyphicon glyphicon-remove\'></span> @endif')
-            ->add_column('actions', '@if ($id!="1")<a href="{{{ URL::to(\'admin/user/\' . $id . \'/edit\' ) }}}" class="btn btn-success btn-sm iframe" ><span class="glyphicon glyphicon-pencil"></span>  {{ trans("admin/modal.edit") }}</a>
-                    <a href="{{{ URL::to(\'admin/user/\' . $id . \'/delete\' ) }}}" class="btn btn-sm btn-danger iframe"><span class="glyphicon glyphicon-trash"></span> {{ trans("admin/modal.delete") }}</a>
-                @endif')
+            ->edit_column('confirmed',
+                            '@if ($confirmed=="1")
+                                    <span class="glyphicon glyphicon-ok" id="iconAtivo{{$id}}"></span>
+                                    <span class=\'glyphicon glyphicon-remove\' id="iconDesativo{{$id}}" style="display:none"></span>
+                            @else
+                                    <span class=\'glyphicon glyphicon-remove\' id="iconDesativo{{$id}}"></span>
+                                    <span class="glyphicon glyphicon-ok" id="iconAtivo{{$id}}" style="display:none"></span>
+                            @endif')
+            ->add_column('actions',
+                    '@if ($id!= Auth::id())
+                        <a href="{{{ url(\'admin/user/\' . $id . \'/edit\' ) }}}" class="btn btn-success btn-sm iframe" title="Editar"><span class="glyphicon glyphicon-pencil"></span></a>
+                        <button onclick="deletar({{$id}})" id="deletar{{$id}}" value="{{$id}}" class="btn btn-sm btn-danger" title="Excluir"><span class="glyphicon glyphicon-trash"></span></button>
+                        @if($confirmed=="1")
+                            <button onclick="desativar({{$id}})" id="desativar{{$id}}" value="{{$id}}" class="btn btn-sm btn-primary" title="Desativar"><span class="glyphicon glyphicon-remove"></span></button>
+                            <button onclick="ativar({{$id}})" id="ativar{{$id}}" style="display:none" value="{{$id}}" class="btn btn-sm btn-info" title="Ativar"><span class="glyphicon glyphicon-ok"></span></button>
+                        @else
+                            <button onclick="ativar({{$id}})" id="ativar{{$id}}" value="{{$id}}" class="btn btn-sm btn-info" title="Ativar"><span class="glyphicon glyphicon-ok"></span></button>
+                            <button onclick="desativar({{$id}})" id="desativar{{$id}}" style="display:none" value="{{$id}}" class="btn btn-sm btn-primary" title="Desativar"><span class="glyphicon glyphicon-remove"></span></button>
+                        @endif
+                    @endif')
+            ->edit_column('created_at', function ($users) {
+                return $users->created_at ? with(new\Carbon\Carbon($users->created_at))->format('d/m/Y H:i') : '';})
             ->remove_column('id')
             ->make();
     }
