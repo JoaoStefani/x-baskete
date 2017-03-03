@@ -35,6 +35,14 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function() {
     Route::get('noticia/reorder', 'Admin\NoticiaController@getReorder');
     Route::resource('noticia', 'Admin\NoticiaController');
 
+    # Noticias
+    Route::get('banner/data', 'Admin\BannerController@data');
+    Route::get('banner/{id}/show', 'Admin\BannerController@show');
+    Route::get('banner/{id}/edit', 'Admin\BannerController@edit');
+    Route::get('banner/{id}/delete', 'Admin\BannerController@delete');
+    Route::get('banner/reorder', 'Admin\BannerController@getReorder');
+    Route::resource('banner', 'Admin\BannerController');
+
     # Users
     Route::get('user/data', 'Admin\UserController@data');
     Route::get('user/{user}/show', 'Admin\UserController@show');

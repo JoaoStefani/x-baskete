@@ -25,6 +25,11 @@
                     </a>
                 </li>
                 <li>
+                    <a href="{{url('admin/banner')}}">
+                        <i class="fa fa-picture-o"></i> Banners
+                    </a>
+                </li>
+                <li>
                     <a href="#">
                         <i class="fa fa-folder-open-o" aria-hidden="true"></i> Galeria multimidia <span class="fa arrow"></span>
                     </a>
