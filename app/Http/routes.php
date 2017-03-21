@@ -4,6 +4,8 @@
 Route::model('noticia', 'App\Noticia');
 Route::model('user', 'App\User');
 Route::model('video', 'App\Video');
+Route::model('banner', 'App\Banner');
+
 Route::pattern('id', '[0-9]+');
 Route::pattern('slug', '[0-9a-z-_]+');
 
@@ -35,13 +37,15 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function() {
     Route::get('noticia/reorder', 'Admin\NoticiaController@getReorder');
     Route::resource('noticia', 'Admin\NoticiaController');
 
-    # Noticias
-    Route::get('banner/data', 'Admin\BannerController@data');
-    Route::get('banner/{id}/show', 'Admin\BannerController@show');
-    Route::get('banner/{id}/edit', 'Admin\BannerController@edit');
-    Route::get('banner/{id}/delete', 'Admin\BannerController@delete');
-    Route::get('banner/reorder', 'Admin\BannerController@getReorder');
-    Route::resource('banner', 'Admin\BannerController');
+    #Banner
+    Route::group(['prefix' => 'banner'], function() {
+        Route::get('data', 'Admin\BannerController@data');
+        Route::get('{id}/show', 'Admin\BannerController@show');
+        Route::get('{id}/edit', 'Admin\BannerController@edit');
+        Route::get('{id}/delete', 'Admin\BannerController@delete');
+        //Route::get('banner/reorder', 'Admin\BannerController@getReorder');
+        Route::resource('', 'Admin\BannerController');
+    });
 
     # Users
     Route::get('user/data', 'Admin\UserController@data');

@@ -39,9 +39,14 @@
     </head>
     <body>
         <div class="container">
+           <div class="container">
             <div class="content">
-                <div class="title">Be right back.</div>
+                <div class="title">
+                    Erro: Confira a mensagem abaixo.
+                 </div>
+                <h2>{{$error}}</h2>
             </div>
+        </div>
         </div>
     </body>
 </html>
