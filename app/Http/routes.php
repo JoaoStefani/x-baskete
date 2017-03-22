@@ -40,9 +40,9 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function() {
     #Banner
     Route::group(['prefix' => 'banner'], function() {
         Route::get('data', 'Admin\BannerController@data');
-        Route::get('{id}/show', 'Admin\BannerController@show');
-        Route::get('{id}/edit', 'Admin\BannerController@edit');
-        Route::get('{id}/delete', 'Admin\BannerController@delete');
+        Route::get('{banner}/show', 'Admin\BannerController@show');
+        Route::get('{banner}/edit', 'Admin\BannerController@edit');
+        Route::get('{banner}/delete', 'Admin\BannerController@delete');
         //Route::get('banner/reorder', 'Admin\BannerController@getReorder');
         Route::resource('', 'Admin\BannerController');
     });

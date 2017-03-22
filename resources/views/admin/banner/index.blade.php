@@ -32,6 +32,76 @@
     </table>
 @stop
 
-{{-- Scripts --}}
 @section('scripts')
-@stop
+    <script type="text/javascript">
+
+        /**
+         * Está função é pra desativar o usuário em tempo real.
+         * @param id
+         */
+        function desativar(id){
+            jQuery.ajax({
+                url: "/admin/user/desativar/"+$('#desativar'+id).val()
+            }).done(function(retorno) {
+                if(retorno.sucesso){
+                    swal(retorno.resposta.toString());
+                    $('#desativar'+id).hide();
+                    $('#ativar'+id).show();
+                    $('#iconDesativo'+id).show();
+                    $('#iconAtivo'+id).hide();
+                }else{
+                    swal(retorno.resposta.toString());
+                }
+            });
+        }
+
+        /**
+         * Está função é pra ativar o usuário em tempo real.
+         * @param id
+         */
+        function ativar(id){
+            jQuery.ajax({
+                url: "/admin/user/ativar/"+$('#ativar'+id).val()
+            }).done(function(retorno) {
+                if(retorno.sucesso){
+                    swal(retorno.resposta.toString());
+                    $('#desativar'+id).show();
+                    $('#ativar'+id).hide();
+                    $('#iconDesativo'+id).hide();
+                    $('#iconAtivo'+id).show();
+                }else{
+                    swal(retorno.resposta.toString());
+                }
+            });
+        }
+
+        /**
+         * Está função é pra deletar o banner.
+         * @param id
+         */
+        function deletar(id){
+            swal({
+                    title: "Deseja excluir o banner?",
+                    text: "",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "Sim, Deletar!",
+                    closeOnConfirm: false
+                  },
+            function(){
+                jQuery.ajax({
+                    url: "/admin/banner/"+$('#deletar'+id).val()+"/delete"
+                }).done(function(retorno) {
+                    if(retorno.sucesso){
+                        swal(retorno.resposta.toString());
+                        document.location = '{{ URL::to("admin/banner") }}';
+                    }else{
+                        swal(retorno.resposta.toString());
+                    }
+                });
+            });
+        }
+    </script>
+@endsection
+

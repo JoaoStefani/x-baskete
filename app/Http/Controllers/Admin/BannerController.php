@@ -152,22 +152,33 @@ class BannerController extends AdminController{
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int  $banner
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function delete($banner)
     {
-        //
+        $acao = '';
+        $salvo = false;
+
+        if($banner){
+            unlink('appfiles/banner/'.$banner->id.'/'.$banner->foto_banner);
+            unlink('appfiles/banner/'.$banner->id.'/'.'red_'.$banner->foto_banner);
+            $salvo = $banner->delete();
+            $acao = "Banner deletado com sucesso.";
+        }else{
+            $acao = "Ocorreu um erro ao deletar o banner.";
+        }
+        return response()->json(['sucesso'=>$salvo, 'resposta'=>$acao]);
     }
 
-     public function data(){
+    public function data(){
         $banner = Banner::join('users', 'users.id', '=', 'banners.user_id')
         ->select(array('users.name','banners.localizacao', 'banners.foto_banner', 'banners.created_at', 'banners.id', ));
 
         return Datatables::of($banner)
-        ->add_column('actions', '<a href="{{{ URL::to(\'admin/banner/\' . $id . \'/edit\' ) }}}" class="btn btn-success btn-sm iframe"  title="Editar"><span class="glyphicon glyphicon-pencil"></span></a>
-                <a href="{{{ URL::to(\'admin/banner/\' . $id . \'/delete\' ) }}}" class="btn btn-sm btn-danger iframedelete"  title="Excluir"><span class="glyphicon glyphicon-trash"></span></a>
-                <input type="hidden" name="row" value="{{$id}}" id="row">')
+        ->add_column('actions',
+                    '<a href="{{{ url(\'admin/user/\' . $id . \'/edit\' ) }}}" class="btn btn-success btn-sm iframe" title="Editar"><span class="glyphicon glyphicon-pencil"></span></a>
+                        <button onclick="deletar({{$id}})" id="deletar{{$id}}" value="{{$id}}" class="btn btn-sm btn-danger" title="Excluir"><span class="glyphicon glyphicon-trash"></span></button>')
         ->edit_column('created_at', function ($banner) {
                 return $banner->created_at ? with(new\Carbon\Carbon($banner->created_at))->format('d/m/Y H:i') : '';})
         ->edit_column('agendamento', function ($banner) {
