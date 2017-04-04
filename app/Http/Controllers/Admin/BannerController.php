@@ -132,9 +132,9 @@ class BannerController extends AdminController{
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Banner $banner)
     {
-        //
+        return view('admin.banner.create_edit', compact('banner'));
     }
 
     /**
@@ -144,9 +144,63 @@ class BannerController extends AdminController{
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(BannerRequest $request, Banner $banner)
     {
-        //
+
+        $banner->update($request->except('foto_banner'));
+        
+        if(Input::hasFile('foto_banner')){
+            $banner['foto_banner'] = $banner->foto_banner;
+            if($banner['foto_banner']!=''){
+                unlink('appfiles/banner/'.$banner->id.'/'.$banner->foto_banner);
+                unlink('appfiles/banner/'.$banner->id.'/'.'red_'.$banner->foto_banner);
+            }
+
+            $file = Input::file('foto_banner');
+            $filename = $file->getClientOriginalName();
+            $extension = $file -> getClientOriginalExtension();
+            $foto_banner = sha1($filename . time()) . '.' . $extension;
+            $banner->foto_banner = $foto_banner;
+            $banner->save();
+
+        } 
+
+        if(Input::hasFile('foto_banner')){
+
+            $destinationPath = public_path() . '/appfiles/banner/'.$banner->id.'/';
+            Input::file('foto_banner')->move($destinationPath, $foto_banner);
+
+            $banner_img = Image::make($destinationPath.$foto_banner);
+
+            // REDIMENSIONANDO DE ACORDO COM O TAMANHO ESCOLHIDO
+            if($request->localizacao == 'vertical rectagle') {
+                $banner_img->fit(228, 455, function ($constraint) {
+                    $constraint->upsize();
+                });
+            }
+            if($request->localizacao == 'leaderboard') {
+                $banner_img->fit(800, 90, function ($constraint) {
+                    $constraint->upsize();
+                });
+            }
+            if($request->localizacao == 'verMaisGaragens_e_ultimosAcontecimentos') {
+                $banner_img->fit(800, 90, function ($constraint) {
+                    $constraint->upsize();
+                });
+            }
+            if($request->localizacao == 'medium rectangle') {
+                $banner_img->fit(300, 250, function ($constraint) {
+                    $constraint->upsize();
+                });
+            }
+            if($request->localizacao == 'carousel') {
+                $banner_img->fit(1280, 800, function ($constraint) {
+                    $constraint->upsize();
+                });
+            }
+
+            $banner_img->save($destinationPath.'red_'.$foto_banner);
+        }   
     }
 
     /**
@@ -173,12 +227,27 @@ class BannerController extends AdminController{
 
     public function data(){
         $banner = Banner::join('users', 'users.id', '=', 'banners.user_id')
-        ->select(array('users.name','banners.localizacao', 'banners.foto_banner', 'banners.created_at', 'banners.id', ));
+        ->select(array('users.name','banners.localizacao', 'banners.foto_banner', 'banners.ativo', 'banners.created_at', 'banners.id', ));
 
         return Datatables::of($banner)
+        ->edit_column('ativo',
+                            '@if ($ativo=="1")
+                                    <span class="glyphicon glyphicon-ok" id="iconAtivo{{$id}}"></span>
+                                    <span class=\'glyphicon glyphicon-remove\' id="iconDesativo{{$id}}" style="display:none"></span>
+                            @else
+                                    <span class=\'glyphicon glyphicon-remove\' id="iconDesativo{{$id}}"></span>
+                                    <span class="glyphicon glyphicon-ok" id="iconAtivo{{$id}}" style="display:none"></span>
+                            @endif')
         ->add_column('actions',
-                    '<a href="{{{ url(\'admin/user/\' . $id . \'/edit\' ) }}}" class="btn btn-success btn-sm iframe" title="Editar"><span class="glyphicon glyphicon-pencil"></span></a>
-                        <button onclick="deletar({{$id}})" id="deletar{{$id}}" value="{{$id}}" class="btn btn-sm btn-danger" title="Excluir"><span class="glyphicon glyphicon-trash"></span></button>')
+                    '<a href="{{{ url(\'admin/banner/\' . $id . \'/edit\' ) }}}" class="btn btn-success btn-sm iframe" title="Editar"><span class="glyphicon glyphicon-pencil"></span></a>
+                     <button onclick="deletar({{$id}})" id="deletar{{$id}}" value="{{$id}}" class="btn btn-sm btn-danger" title="Excluir"><span class="glyphicon glyphicon-trash"></span></button>
+                     @if($ativo=="1")
+                        <button onclick="desativar({{$id}})" id="desativar{{$id}}" value="{{$id}}" class="btn btn-sm btn-primary" title="Desativar"><span class="glyphicon glyphicon-remove"></span></button>
+                        <button onclick="ativar({{$id}})" id="ativar{{$id}}" style="display:none" value="{{$id}}" class="btn btn-sm btn-info" title="Ativar"><span class="glyphicon glyphicon-ok"></span></button>
+                     @else
+                        <button onclick="ativar({{$id}})" id="ativar{{$id}}" value="{{$id}}" class="btn btn-sm btn-info" title="Ativar"><span class="glyphicon glyphicon-ok"></span></button>
+                        <button onclick="desativar({{$id}})" id="desativar{{$id}}" style="display:none" value="{{$id}}" class="btn btn-sm btn-primary" title="Desativar"><span class="glyphicon glyphicon-remove"></span></button>
+                     @endif')
         ->edit_column('created_at', function ($banner) {
                 return $banner->created_at ? with(new\Carbon\Carbon($banner->created_at))->format('d/m/Y H:i') : '';})
         ->edit_column('agendamento', function ($banner) {

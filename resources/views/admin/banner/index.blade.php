@@ -24,6 +24,7 @@
             <th>Autor</th>
             <th>Localização</th>
             <th>Banner</th>
+            <th>Ativo</th>
             <th>Criado em</th>
             <th width='10%'>Ações</th>
         </tr>
@@ -36,12 +37,12 @@
     <script type="text/javascript">
 
         /**
-         * Está função é pra desativar o usuário em tempo real.
+         * Está função é pra desativar o banner em tempo real.
          * @param id
          */
         function desativar(id){
             jQuery.ajax({
-                url: "/admin/user/desativar/"+$('#desativar'+id).val()
+                url: "/admin/banner/desativar/"+$('#desativar'+id).val()
             }).done(function(retorno) {
                 if(retorno.sucesso){
                     swal(retorno.resposta.toString());
@@ -56,12 +57,12 @@
         }
 
         /**
-         * Está função é pra ativar o usuário em tempo real.
+         * Está função é pra ativar o banner em tempo real.
          * @param id
          */
         function ativar(id){
             jQuery.ajax({
-                url: "/admin/user/ativar/"+$('#ativar'+id).val()
+                url: "/admin/banner/ativar/"+$('#ativar'+id).val()
             }).done(function(retorno) {
                 if(retorno.sucesso){
                     swal(retorno.resposta.toString());
