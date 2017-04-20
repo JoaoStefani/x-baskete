@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-@section('title') Login :: @parent @endsection
+<title>X-Baskete</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Amatic+SC">
@@ -23,24 +23,24 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Amatic SC", sans-serif}
         <span class="w3-text-white w3-hide-small" style="font-size:100px">Entre com sua conta</span>
         {!! Form::open(array('url' => url('auth/login'), 'method' => 'post', 'files'=> true)) !!}
         <div class="form-group  {{ $errors->has('email') ? 'has-error' : '' }} col-md-6 col-md-offset-2">
-            {!! Form::label('email', "E-Mail Address", array('class' => 'w3-text-white w3-hide-small')) !!}
+            {!! Form::label('email', "E-Mail", array('class' => 'w3-text-white w3-xxlarge')) !!}
             <div class="controls">
                 {!! Form::text('email', null, array('class' => 'w3-input w3-padding-16 w3-border')) !!}
                 <span class="help-block">{{ $errors->first('email', ':message') }}</span>
             </div>
         </div>
         <div class="form-group  {{ $errors->has('password') ? 'has-error' : '' }} col-md-6 col-md-offset-2">
-            {!! Form::label('password', "Password", array('class' => 'w3-text-white w3-hide-small')) !!}
+            {!! Form::label('password', "Password", array('class' => 'w3-text-white w3-xxlarge')) !!}
             <div class="controls">
-                {!! Form::password('password', array('class' => 'form-control')) !!}
+                {!! Form::password('password', array('class' => 'w3-input w3-padding-16 w3-border')) !!}
                 <span class="help-block">{{ $errors->first('password', ':message') }}</span>
             </div>
         </div>
         <div class="form-group">
             <div class="col-md-6 col-md-offset-4">
                 <div class="checkbox">
-                    <label>
-                        <input type="checkbox" name="remember"> Remember Me
+                    <label class="w3-text-white">
+                        <input type="checkbox" name="remember"> Lembrar-me
                     </label>
                 </div>
             </div>
@@ -52,7 +52,7 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Amatic SC", sans-serif}
                     Login
                 </button>
 
-                <a href="{{ url('/password/email') }}">Esqueceu sua senha?</a>
+                <a  class="w3-text-white" href="{{ url('/password/email') }}">Esqueceu sua senha?</a>
             </div>
         </div>
         {!! Form::close() !!}
