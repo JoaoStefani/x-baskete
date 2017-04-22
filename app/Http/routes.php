@@ -5,6 +5,7 @@ Route::model('noticia', 'App\Noticia');
 Route::model('user', 'App\User');
 Route::model('video', 'App\Video');
 Route::model('banner', 'App\Banner');
+Route::model('tipocardapio', 'App\TipoCardapio');
 
 Route::pattern('id', '[0-9]+');
 Route::pattern('slug', '[0-9a-z-_]+');
@@ -36,6 +37,24 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function() {
     Route::get('noticia/{id}/delete', 'Admin\NoticiaController@delete');
     Route::get('noticia/reorder', 'Admin\NoticiaController@getReorder');
     Route::resource('noticia', 'Admin\NoticiaController');
+
+    # Promoções
+    Route::get('promocao/data', 'Admin\PromocaoController@data');
+    Route::get('promocao/{id}/show', 'Admin\PromocaoController@show');
+    Route::get('promocao/{id}/edit', 'Admin\PromocaoController@edit');
+    Route::get('promocao/{id}/delete', 'Admin\PromocaoController@delete');
+    Route::get('promocao/reorder', 'Admin\PromocaoController@getReorder');
+    Route::resource('promocao', 'Admin\PromocaoController');
+
+    # Tipos cardapio
+    Route::get('tipo_cardapio/data', 'Admin\TipoCardapioController@data');
+    Route::get('tipo_cardapio/{tipocardapio}/show', 'Admin\TipoCardapioController@show');
+    Route::get('tipo_cardapio/{tipocardapio}/edit', 'Admin\TipoCardapioController@edit');
+    Route::put('tipo_cardapio/{tipocardapio}/update', 'Admin\TipoCardapioController@update');
+    Route::get('tipo_cardapio/{tipocardapio}/delete', 'Admin\TipoCardapioController@delete');
+    Route::get('tipo_cardapio/reorder', 'Admin\TipoCardapioController@getReorder');
+    Route::get('tipo_cardapio/{ativacao}/{tipocardapio}', 'Admin\TipoCardapioController@tipocardapioAtivacao');
+    Route::resource('tipo_cardapio', 'Admin\TipoCardapioController');
 
     #Banner
     Route::get('banner/data', 'Admin\BannerController@data');

@@ -6,7 +6,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="{{ url('/') }}">Laravel V5.1</a>
+        <a class="navbar-brand" href="{{ url('/') }}">Administração</a>
     </div>
     <div class="navbar-default sidebar" role="navigation">
         <div class="sidebar-nav navbar-collapse">
@@ -27,6 +27,16 @@
                 <li>
                     <a href="{{url('admin/banner')}}">
                         <i class="fa fa-picture-o"></i> Banners
+                    </a>
+                </li>
+                <li>
+                    <a href="{{url('admin/promocao')}}">
+                        <i class="fa fa-server"></i> Promoções
+                    </a>
+                </li>
+                <li>
+                    <a href="{{url('admin/tipo_cardapio')}}">
+                        <i class="fa fa-shopping-cart"></i> Tipo Cardápio
                     </a>
                 </li>
                 <li>

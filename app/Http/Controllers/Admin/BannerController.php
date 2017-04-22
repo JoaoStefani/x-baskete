@@ -116,17 +116,6 @@ class BannerController extends AdminController{
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
@@ -221,6 +210,33 @@ class BannerController extends AdminController{
             $acao = "Banner deletado com sucesso.";
         }else{
             $acao = "Ocorreu um erro ao deletar o banner.";
+        }
+        return response()->json(['sucesso'=>$salvo, 'resposta'=>$acao]);
+    }
+
+     /**
+     * @param $ativacao
+     * @param $banner
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function bannerAtivacao($ativacao, $banner){
+        $banner = Banner::where('id', '=', $banner->id)
+                        ->first();
+        $acao = '';
+        $salvo = false;
+
+        if($banner){
+            if($ativacao == "ativar"){
+                $banner->ativo = 1;
+                $salvo = $banner->save();
+                $acao = "O banner foi ativando com sucesso.";
+            }else{
+                $banner->ativo = 0;
+                $salvo = $banner->save();
+                $acao = "O banner foi desativado com sucesso.";
+            }
+        }else{
+            $acao = "Ocorreu um erro ao ativar/desativar.";
         }
         return response()->json(['sucesso'=>$salvo, 'resposta'=>$acao]);
     }
